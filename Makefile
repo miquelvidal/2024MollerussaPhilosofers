@@ -1,26 +1,44 @@
 
 NAME=filosofs
 
-CFLAGS= -Wall -Werror -Wextra
+CFLAGS= -Wall -Werror -Wextra -MMD -MP
 SRC_DIR = ./src
 INC_DIR = ./includes
+BIN_DIR = ./bin
+OBJ_DIR = ./obj
 
-OBJS = main.o filosof.o forquilla.o taula.o utilitats.o
+SRC = 	main.c 		\
+		filosof.c	\
+		forquilla.c	\
+		taula.c 	\
+		utilitats.c	\
 
-all: ${NAME}
+OBJS = $(patsubst %.c,${OBJ_DIR}/%.o, ${SRC})
+DEPS = $(patsubst %.c,${OBJ_DIR}/%.d, ${SRC})
 
-${NAME}: ${OBJS}
-	gcc ${CFLAGS} -o ${NAME} ${OBJS}
+all: ${BIN_DIR}/${NAME}
 
-%.o: ${SRC_DIR}/%.c
+${BIN_DIR}/${NAME}: ${BIN_DIR} ${OBJ_DIR} ${OBJS}
+	gcc ${CFLAGS} -o ${BIN_DIR}/${NAME} ${OBJS}
+
+${BIN_DIR}:
+	mkdir -p ${BIN_DIR}
+
+${OBJ_DIR}:
+	mkdir -p ${OBJ_DIR}
+
+${OBJ_DIR}/%.o: ${SRC_DIR}/%.c Makefile
 	gcc ${CFLAGS} -I ${INC_DIR} -c $< -o $@
 
 clean:
-	rm -rf ${OBJS}
+	rm -rf ${OBJ_DIR}
+
 
 fclean: clean 
-	rm -rf ${NAME}
+	rm -rf ${BIN_DIR}
 
 re: fclean all
+
+-include ${DEPS}
 
 .PHONY: all clean fclean re

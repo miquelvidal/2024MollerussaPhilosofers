@@ -9,5 +9,6 @@ typedef struct s_forquilla
 
 } t_forquilla;
 
+t_forquilla forquilla_init(int id);
 
 #endif

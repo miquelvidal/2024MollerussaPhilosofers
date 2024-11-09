@@ -1,18 +1,23 @@
 #include "taula.h"
 
-bool taula_destroy(t_taula* taula_destroy){
-        
-    if (taula_destroy==NULL) return true;
-    taula_pararSimulacio(taula_destroy);
+bool taula_destroy(t_taula* taula_d){
 
-    if (taula_destroy->filosofs!=NULL){
-        free (taula_destroy->filosofs);
+    printf("taula_destroy inici pararSimulacio\n");
+    if (taula_d==NULL) return true;
+    printf("taula_destroy pre-pararSimulacio\n");
+    if (taula_d->executa_simulacio) taula_pararSimulacio(taula_d);
+    printf("taula_destroy després pararSimulacio\n");
+    if (taula_d->filosofs!=NULL){
+        free(taula_d->filosofs);
     }
+    printf("taula_destroy després pararSimulacio2\n");
 
-    if (taula_destroy->forquilles!=NULL){
-        free (taula_destroy->forquilles);
+    if (taula_d->forquilles!=NULL){
+        free(taula_d->forquilles);
     }
-    free (taula_destroy);
+    printf("taula_destroy després pararSimulacio3\n");
+    free(taula_d);
+    printf("taula_destroy després pararSimulacio4\n");
 
     return true;
 }
@@ -113,6 +118,7 @@ void taula_iniciarSimulacio(t_taula* taula){
 }
 
 void taula_pararSimulacio(t_taula* taula){
+    printf("taula_pararSimulacio inici\n");
     int iterador = 0;
     taula->executa_simulacio = false;
     while (iterador<taula->quants_filosofs)

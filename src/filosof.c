@@ -43,7 +43,8 @@ void filosof_iniciarSimulacio(t_filosof* filosof){
 void filosof_pararSimulacio(t_filosof* filosof){
     
     t_timestamp time; 
-    pthread_join(filosof->id_thread,NULL);
+
+    if (filosof->id_thread>0) pthread_join(filosof->id_thread,NULL);
 
     time = utilitats_obte_timestamp();
 
@@ -64,11 +65,16 @@ void* filosof_menjant(void* void_filosof){
     while(filosof->taula->executa_simulacio) 
     {
         time = utilitats_obte_timestamp();
-      //  if ((time-filosof->ultim_menjar)>filosof->taula->temps_morir)
-      //      taula_filosofMort(filosof->taula,filosof,time);
-      //  else
+        if ((time-filosof->ultim_menjar)>filosof->taula->temps_morir) 
+        {
+            taula_filosofMort(filosof->taula,filosof,time);
+        }
+        else
+        {
+
             printf("Hola soc el filosof %d estic %s amb ts %lld\n",filosof->id,filosof->txt_estat, time);
-        sleep(1);
+            sleep(1);
+        }
     }
     
 

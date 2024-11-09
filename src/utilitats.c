@@ -21,6 +21,6 @@ t_timestamp utilitats_obte_timestamp(void)
 
     gettimeofday(&tv, NULL);
 //    time = tv.tv_sec*1000LL + tv.tv_usec / 1000LL;
-    time = tv.tv_sec*1000000LL + tv.tv_usec;
+    time = tv.tv_sec*1000LL + tv.tv_usec;
     return (time);
 }

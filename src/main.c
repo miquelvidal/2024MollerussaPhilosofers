@@ -19,7 +19,7 @@ int main(int argc, char **argv){
         return (EXIT_FAILURE);
     taula_debug(taula);
     taula_iniciarSimulacio(taula);
-    sleep(20);
+    //sleep(20);
     taula_destroy(taula);
     return(EXIT_SUCCESS);
 }

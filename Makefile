@@ -2,10 +2,12 @@
 NAME=filosofs
 
 CFLAGS= -Wall -Werror -Wextra -MMD -MP
+
 SRC_DIR = ./src
 INC_DIR = ./includes
 BIN_DIR = ./bin
 OBJ_DIR = ./obj
+PTHREAD_FLAG = -pthread
 
 SRC = 	main.c 		\
 		filosof.c	\
@@ -19,7 +21,7 @@ DEPS = $(patsubst %.c,${OBJ_DIR}/%.d, ${SRC})
 all: ${BIN_DIR}/${NAME}
 
 ${BIN_DIR}/${NAME}: ${BIN_DIR} ${OBJ_DIR} ${OBJS}
-	gcc ${CFLAGS} -o ${BIN_DIR}/${NAME} ${OBJS}
+	gcc ${CFLAGS} ${PTHREAD_FLAG} -o ${BIN_DIR}/${NAME} ${OBJS}
 
 ${BIN_DIR}:
 	mkdir -p ${BIN_DIR}

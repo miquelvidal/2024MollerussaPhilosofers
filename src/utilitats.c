@@ -14,3 +14,13 @@ int utilitats_string2int(const char* string){
     return (atoi(string));    
 }
 
+t_timestamp utilitats_obte_timestamp(void)
+{
+    struct timeval tv;
+    t_timestamp time;
+
+    gettimeofday(&tv, NULL);
+//    time = tv.tv_sec*1000LL + tv.tv_usec / 1000LL;
+    time = tv.tv_sec*1000000LL + tv.tv_usec;
+    return (time);
+}

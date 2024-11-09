@@ -3,6 +3,7 @@
 bool taula_destroy(t_taula* taula_destroy){
         
     if (taula_destroy==NULL) return true;
+    taula_pararSimulacio(taula_destroy);
 
     if (taula_destroy->filosofs!=NULL){
         free (taula_destroy->filosofs);
@@ -58,9 +59,14 @@ t_taula* taula_init(int init_filosofs){
 
     iterador = 0;
     while(iterador < taula->quants_filosofs){
-        taula->filosofs[iterador] = filosof_init(iterador);
+        taula->filosofs[iterador] = filosof_init(iterador,taula);
         iterador++;
     }
+
+    taula->temps_menjar = 20;
+    taula->temps_dormir = 20;
+    taula->temps_morir = 20;
+    taula->executa_simulacio = false;
     return taula;
 
 }
@@ -81,6 +87,8 @@ void taula_debug(t_taula* taula_debug)
     while (iterador < taula_debug->quants_filosofs)
     {
         printf("\t\tid: %d\n", taula_debug->filosofs[iterador].id);
+        printf("\t\testat: %d\n", taula_debug->filosofs[iterador].estat);
+        printf("\t\ttxt_estat: %s\n", taula_debug->filosofs[iterador].txt_estat);
         iterador++;
     }
     printf("\tForquilles\n");
@@ -92,4 +100,30 @@ void taula_debug(t_taula* taula_debug)
     }
     printf("FI Debug Taula*******************\n");
 
+}
+
+void taula_iniciarSimulacio(t_taula* taula){
+    int iterador = 0;
+    taula->executa_simulacio = true;
+    while (iterador<taula->quants_filosofs)
+    {
+        filosof_iniciarSimulacio(&taula->filosofs[iterador]);
+        iterador++;
+    }
+}
+
+void taula_pararSimulacio(t_taula* taula){
+    int iterador = 0;
+    taula->executa_simulacio = false;
+    while (iterador<taula->quants_filosofs)
+    {
+        filosof_pararSimulacio(&taula->filosofs[iterador]);
+        iterador++;
+    }
+}
+
+void taula_filosofMort(t_taula* taula,t_filosof* filosof,t_timestamp horaDefuncio){
+    
+    printf("Filosof %d mort a les %lld\n",filosof->id,horaDefuncio);
+    taula_pararSimulacio(taula);
 }
